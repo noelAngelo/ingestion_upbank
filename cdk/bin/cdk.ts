@@ -17,7 +17,8 @@ const apiStack = new ApiStack(app, 'ApiStack', {
     region: process.env.CDK_DEFAULT_REGION,
   },
   handler: 'index.handler',
-  codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'fastapi'),
+  codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'webhook'),
+  layerPath: path.join(__dirname, '..', '..', 'app', 'lambda', 'layer'),
   environment: {
     'UP_API_KEY': process.env.UP_API_KEY || '',
   }
