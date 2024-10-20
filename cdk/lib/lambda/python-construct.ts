@@ -1,7 +1,8 @@
 import { Duration } from "aws-cdk-lib";
 import { IRole } from "aws-cdk-lib/aws-iam";
-import {Runtime} from "aws-cdk-lib/aws-lambda";
+import { Runtime, Function, Code } from "aws-cdk-lib/aws-lambda";
 import { Construct } from "constructs";
+import { resolve } from "path";
 
 export interface PythonLambdaProps {
   readonly handler: string;
@@ -14,15 +15,15 @@ export interface PythonLambdaProps {
 }
 
 export class PythonLambda extends Construct {
-  public readonly lambdaFunction: lambda.Function;
+  public readonly lambdaFunction: Function;
 
   constructor(scope: Construct, id: string, props: PythonLambdaProps) {
     super(scope, id);
 
-    this.lambdaFunction = new lambda.Function(this, `${id}Lambda`, {
+    this.lambdaFunction = new Function(this, `${id}Lambda`, {
       runtime: props.runtime,
       handler: props.handler,
-      code: lambda.Code.fromAsset(path.resolve(props.codePath)),
+      code: Code.fromAsset(resolve(props.codePath)),
       environment: props.environment,
       timeout: props.timeout || Duration.seconds(30),
       memorySize: props.memorySize || 128,
