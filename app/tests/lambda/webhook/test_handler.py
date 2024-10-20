@@ -1,5 +1,10 @@
 import json
-from webhook.index import handler
+from webhook.index import handler, DEFAULT_LOG_FORMAT
+from loguru import logger
+
+logger.add(
+    "app/tests/lambda/webhook/test_handler.log", 
+    format=DEFAULT_LOG_FORMAT)
 
 def test_handler_empty_event():
     event = {}  # Mock event data if needed
