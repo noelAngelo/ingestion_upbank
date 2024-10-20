@@ -21,7 +21,15 @@ export class PythonLambda extends Construct {
   constructor(scope: Construct, id: string, props: PythonLambdaProps) {
     super(scope, id);
 
-    const code = Code.fromAsset(resolve(__dirname, props.codePath));
+    const code = Code.fromAsset(resolve(__dirname, props.codePath), {
+      bundling: {
+        image: props.runtime.bundlingImage,
+        command: [
+          'bash', '-c',
+          `pip install -r requirements.txt -t /asset-output && cp -au . /asset-output`
+        ],
+      }
+    });
     console.log(`Code path: ${code.path}`);
 
     this.lambdaFunction = new Function(this, `${id}Lambda`, {
