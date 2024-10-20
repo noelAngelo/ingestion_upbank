@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { ApiStack } from '../lib/stacks/api-stack';
+import * as path from 'path';
 
 const app = new cdk.App();
 
@@ -15,4 +16,9 @@ const apiStack = new ApiStack(app, 'ApiStack', {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,
   },
+  handler: 'index.handler',
+  codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'fastapi'),
+  environment: {
+    'UP_API_KEY': process.env.UP_API_KEY || '',
+  }
 });

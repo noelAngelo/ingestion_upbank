@@ -8,7 +8,7 @@ export interface PythonLambdaProps {
   readonly handler: string;
   readonly codePath: string;
   readonly runtime: Runtime;
-  readonly environment: { [key: string]: string };
+  readonly environment?: { [key: string]: string };
   readonly timeout?: Duration;
   readonly memorySize?: number;
   readonly role: IRole;
@@ -20,10 +20,13 @@ export class PythonLambda extends Construct {
   constructor(scope: Construct, id: string, props: PythonLambdaProps) {
     super(scope, id);
 
+    const code = Code.fromAsset(resolve(__dirname, props.codePath));
+    console.log(`Code path: ${code.path}`);
+
     this.lambdaFunction = new Function(this, `${id}Lambda`, {
       runtime: props.runtime,
       handler: props.handler,
-      code: Code.fromAsset(resolve(props.codePath)),
+      code: code,
       environment: props.environment,
       timeout: props.timeout || Duration.seconds(30),
       memorySize: props.memorySize || 128,
