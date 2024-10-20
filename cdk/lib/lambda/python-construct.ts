@@ -11,6 +11,7 @@ export interface PythonLambdaProps {
   readonly environment?: { [key: string]: string };
   readonly timeout?: Duration;
   readonly memorySize?: number;
+  readonly functionName?: string;
   readonly role: IRole;
 }
 
@@ -24,6 +25,7 @@ export class PythonLambda extends Construct {
     console.log(`Code path: ${code.path}`);
 
     this.lambdaFunction = new Function(this, `${id}Lambda`, {
+      functionName: props.functionName,
       runtime: props.runtime,
       handler: props.handler,
       code: code,

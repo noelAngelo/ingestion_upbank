@@ -10,13 +10,13 @@ interface ApiStackProps extends cdk.StackProps {
 }
 
 export class ApiStack extends cdk.Stack {
-  public readonly lambdaFunction: Function;
   
   constructor(scope: cdk.App, id: string, props: ApiStackProps) {
     super(scope, id, props);
 
     const lambdaRole = new LambdaExecutionRole(this, `${id}LambdaRole`).role;
-    const lambdaWebhook = new PythonLambda(this, 'LambdaWebhook', {
+    new PythonLambda(this, `${id}LambdaWebhook`, {
+      functionName: `${id}LambdaWebhook`,
       runtime: Runtime.PYTHON_3_12,
       handler: props.handler,
       codePath: props.codePath,
