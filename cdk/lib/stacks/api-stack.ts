@@ -18,8 +18,10 @@ export class ApiStack extends cdk.Stack {
     super(scope, id, props);
 
     // Create a new instance of the Lambda Layer construct
-    const layer = new PythonLambdaLayer(this, `${id}CommonDependenciesLayer`, { 
-      codePath: props.layerPath }
+    const layer = new PythonLambdaLayer(this, `${id}CommonDependenciesLayer`, {
+      codePath: props.layerPath,
+      runtime: Runtime.PYTHON_3_12,
+    }
     );
 
     // Create a new instance of the Lambda Execution Role construct
