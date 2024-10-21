@@ -7,9 +7,9 @@ from utils import compute_hmac_sha256
 logger = logging.getLogger(__name__)
 
 
-def handle_webhook(event: dict, secret: dict) -> dict:
+def handle_webhook(event: dict, secret: str) -> dict:
     received_signature = event["headers"]["X-Up-Authenticity-Signature"]
-    signature = compute_hmac_sha256(secret_key=secret["secretKey"], message=event["body"])
+    signature = compute_hmac_sha256(secret_key=secret, message=event["body"])
 
     if received_signature != signature:
         return dict(status_code=403, content="Forbidden")
