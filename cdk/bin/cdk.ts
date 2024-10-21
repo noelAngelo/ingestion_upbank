@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { ApiStack } from '../lib/stacks/api-stack';
+import { Runtime } from "aws-cdk-lib/aws-lambda";
 import * as path from 'path';
 
 const app = new cdk.App();
@@ -20,6 +21,9 @@ const apiStack = new ApiStack(app, 'ApiStack', {
   codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'webhook'),
   layerPath: path.join(__dirname, '..', '..', 'app', 'lambda', 'layer', 'python'),
   environment: {
-    'UP_API_KEY': process.env.UP_API_KEY || '',
-  }
+    'SECRET_UPBANK_API': '/prod/key/upbank/api',
+    'SECRET_UPBANK_WEBHOOK': '/prod/key/upbank/webhook',
+  },
+  runtime: Runtime.PYTHON_3_12,
+  pythonVersion: '312',
 });
