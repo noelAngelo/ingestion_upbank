@@ -35,6 +35,10 @@ export class ApiStack extends cdk.Stack {
 
     // Create a new instance of the Lambda Execution Role construct
     const lambdaRole = new LambdaExecutionRole(this, `${id}LambdaRole`).role;
+    lambdaRole.addToPolicy(new iam.PolicyStatement({
+      actions: ['secretsmanager:GetSecretValue'],
+      resources: ['*'],
+    }));
 
     // Define the Lambda function
     const webhookLambda = new PythonLambda(this, `${id}LambdaWebhook`, {

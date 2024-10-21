@@ -1,6 +1,6 @@
 import { Duration } from "aws-cdk-lib";
 import { IRole } from "aws-cdk-lib/aws-iam";
-import { Runtime, Function, Code } from "aws-cdk-lib/aws-lambda";
+import { Runtime, Function, Code, Tracing } from "aws-cdk-lib/aws-lambda";
 import { Construct } from "constructs";
 import { resolve } from "path";
 
@@ -31,6 +31,7 @@ export class PythonLambda extends Construct {
       timeout: props.timeout || Duration.seconds(30),
       memorySize: props.memorySize || 128,
       role: props.role,
+      tracing: Tracing.ACTIVE,
     });
   }
 }
