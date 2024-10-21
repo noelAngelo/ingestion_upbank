@@ -2,6 +2,7 @@ from aws_lambda_powertools import Tracer, Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from helpers import handle_webhook, retrieve_secret_value
 import os
+import json
 
 
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(funcName)s() - %(message)s"
@@ -20,4 +21,9 @@ def handler(event: dict, context: LambdaContext) -> dict:
         port=DEFAULT_PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,
         secret_key="secretKey",
     )
-    return handle_webhook(event, secret=webhook_secret)
+
+    result_dict = handle_webhook(event=event, secret=webhook_secret)
+    return {
+        "statusCode": result_dict["status_code"],
+        "body": json.dumps(result_dict["content"]),
+    }
