@@ -23,6 +23,8 @@ const apiStack = new ApiStack(app, 'ApiStack', {
   environment: {
     'SECRET_UPBANK_API': '/prod/key/upbank/api',
     'SECRET_UPBANK_WEBHOOK': '/prod/key/upbank/webhook',
+
+    'POWERTOOLS_SERVICE_NAME': 'upbank-webhook-service',
   },
   runtime: Runtime.PYTHON_3_12,
   pythonVersion: '312',
