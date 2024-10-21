@@ -1,42 +1,29 @@
+from aws_lambda_powertools import Tracer, Logger
+from aws_lambda_powertools.utilities.typing import LambdaContext
+from helpers import handle_webhook, retrieve_secret_value
 import os
-import logging
 import json
 
-logger = logging.getLogger(__name__)
 
-DEFAULT_LOGGING_FORMAT = "{time} | {level} | {message}"
-DEFAULT_LOG_LEVEL = "INFO"
-DEFAULT_LOG_FORMAT = (
-    "[%(asctime)s %(filename)s->%(funcName)s():%(lineno)s]%(levelname)s: %(message)s"
-)
+DEFAULT_LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(funcName)s() - %(message)s"
+DEFAULT_PARAMETERS_SECRETS_EXTENSION_HTTP_PORT = 2773
+
+tracer = Tracer()
+logger = Logger(service="webhook", name="%(name)s")
 
 
-def handler(event, context):
-    # Configure the logger
-    logging.basicConfig(
-        format=event.get("LOG_FORMAT", DEFAULT_LOG_FORMAT),
-        level=event.get("LOG_LEVEL", DEFAULT_LOG_LEVEL),
+@logger.inject_lambda_context
+@tracer.capture_lambda_handler
+def handler(event: dict, context: LambdaContext) -> dict:
+
+    webhook_secret = retrieve_secret_value(
+        secret_id=os.environ.get("SECRET_UPBANK_WEBHOOK"),
+        port=DEFAULT_PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,
+        secret_key="secretKey",
     )
 
-    if "body" in event.keys():
-        # Extract the POST request body sent via API Gateway
-        body = event["body"]
-
-        # Log the webhook payload
-        logger.debug(f"Received webhook payload: {body}")
-        
-        # Process the webhook payload
-        msg = "Webhook processed successfully"
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"message": msg}),
-        }
-
-    else:
-        msg = "No webhook payload found in the request body"
-        logger.error(msg=msg)
-        return {
-            "statusCode": 400,
-            "body": json.dumps({"message": msg}),
-        }
-    
+    result_dict = handle_webhook(event=event, secret=webhook_secret)
+    return {
+        "statusCode": result_dict["status_code"],
+        "body": json.dumps(result_dict["content"]),
+    }

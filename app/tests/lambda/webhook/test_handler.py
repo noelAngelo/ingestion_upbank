@@ -1,23 +1,36 @@
-import json
-from webhook.index import handler, DEFAULT_LOG_FORMAT
-from loguru import logger
+from index import handler, DEFAULT_LOG_FORMAT
+from utils import compute_hmac_sha256
+import logging
 
-logger.add(
-    "app/tests/lambda/webhook/test_handler.log", 
-    format=DEFAULT_LOG_FORMAT)
+# Configure logging with custom format
+logging.basicConfig(level=logging.INFO, format=DEFAULT_LOG_FORMAT)
 
-def test_handler_empty_event():
-    event = {}  # Mock event data if needed
-    context = None  # Mock context object if needed
-    response = handler(event, context)
-    
-    assert response["statusCode"] == 400
-    assert json.loads(response["body"])["message"] == "No webhook payload found in the request body"
+# Create a logger
+logger = logging.getLogger(__name__)
 
-def test_handler_log_level_event():
-    event = {"LOG_LEVEL": "DEBUG", "body": {}}  # Mock event data if needed
-    context = None  # Mock context object if needed
-    response = handler(event, context)
-    
-    assert response["statusCode"] == 200
-    assert json.loads(response["body"])["message"] == "Webhook processed successfully"
+
+class TestWebhookHandler:
+    # def test_handler(self, mocker):
+    #     # GIVEN
+    #     event = {"key": "value"}
+    #     context = None
+
+    #     # WHEN
+    #     response = handler(event, context)
+
+    #     # THEN
+    #     assert response == {"statusCode": 200, "body": "Hello World"}
+
+    def test_compute_hmac_sha256(self):
+        # GIVEN
+        secret_key = "test-secret-key"
+        message = {"example": "data"}
+
+        # WHEN
+        computed_signature = compute_hmac_sha256(secret_key, message)
+
+        # THEN
+        assert (
+            computed_signature
+            == "cb5b54a0678ce6a2d342bbdae74ff93a7595cf408d996319b846d4ede2c611d8"
+        )
