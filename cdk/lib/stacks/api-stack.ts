@@ -44,7 +44,7 @@ export class ApiStack extends cdk.Stack {
       lambdafunction: webhookLambda.lambdaFunction,
       apiName: 'Up Bank Webhook Service',
       stageName: 'prod',
-      path: 'webhook',
+      version: 'v1',
     });
   }
 }

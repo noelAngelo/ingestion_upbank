@@ -12,11 +12,21 @@ DEFAULT_LOG_FORMAT = (
 
 
 def handler(event, context):
-    # Configure the logger
-    logging.basicConfig(
-        format=event.get("LOG_FORMAT", DEFAULT_LOG_FORMAT),
-        level=event.get("LOG_LEVEL", DEFAULT_LOG_LEVEL),
-    )
+    
+    if event is None:
+        msg = "No event data found"
+        logger.error(msg=msg)
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"message": msg}, indent=4),
+        }
+    
+    else:
+        # Configure the logger
+        logging.basicConfig(
+            format=event.get("LOG_FORMAT", DEFAULT_LOG_FORMAT),
+            level=event.get("LOG_LEVEL", DEFAULT_LOG_LEVEL),
+        )
 
     if "body" in event.keys():
         # Extract the POST request body sent via API Gateway
@@ -24,12 +34,12 @@ def handler(event, context):
 
         # Log the webhook payload
         logger.debug(f"Received webhook payload: {body}")
-        
+
         # Process the webhook payload
         msg = "Webhook processed successfully"
         return {
             "statusCode": 200,
-            "body": json.dumps({"message": msg}),
+            "body": json.dumps({"message": msg}, indent=4),
         }
 
     else:
@@ -37,6 +47,5 @@ def handler(event, context):
         logger.error(msg=msg)
         return {
             "statusCode": 400,
-            "body": json.dumps({"message": msg}),
+            "body": json.dumps({"message": msg}, indent=4),
         }
-    
