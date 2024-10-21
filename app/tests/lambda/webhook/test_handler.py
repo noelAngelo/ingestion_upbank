@@ -1,5 +1,5 @@
-from webhook.index import handler, DEFAULT_LOG_FORMAT
-from webhook.utils import compute_hmac_sha256
+from index import handler, DEFAULT_LOG_FORMAT
+from utils import compute_hmac_sha256
 import logging
 
 # Configure logging with custom format
@@ -24,7 +24,7 @@ class TestWebhookHandler:
     def test_compute_hmac_sha256(self):
         # GIVEN
         secret_key = "test-secret-key"
-        message = '{"example": "data"}'
+        message = {"example": "data"}
 
         # WHEN
         computed_signature = compute_hmac_sha256(secret_key, message)

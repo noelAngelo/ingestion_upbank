@@ -21,10 +21,15 @@ const apiStack = new ApiStack(app, 'ApiStack', {
   codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'webhook'),
   layerPath: path.join(__dirname, '..', '..', 'app', 'lambda', 'layer', 'python'),
   environment: {
-    'SECRET_UPBANK_API': '/prod/key/upbank/api',
-    'SECRET_UPBANK_WEBHOOK': '/prod/key/upbank/webhook',
+    // UpBank API
+    SECRET_UPBANK_API: '/prod/key/upbank/api',
+    SECRET_UPBANK_WEBHOOK: '/prod/key/upbank/webhook',
 
-    'POWERTOOLS_SERVICE_NAME': 'upbank-webhook-service',
+    // PowerTools Extension
+    POWERTOOLS_SERVICE_NAME: 'upbank-webhook-service',
+
+    // Parameters and Secrets Extension
+    PARAMETERS_SECRETS_EXTENSION_LOG_LEVEL: 'INFO',
   },
   runtime: Runtime.PYTHON_3_12,
   pythonVersion: '312',
