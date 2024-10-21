@@ -20,5 +20,4 @@ def handler(event: dict, context: LambdaContext) -> dict:
         port=DEFAULT_PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,
         secret_key="secretKey",
     )
-    logger.info("Retrieved secret value", extra={"secret": webhook_secret})
     return handle_webhook(event, secret=webhook_secret)
