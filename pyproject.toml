@@ -5,7 +5,7 @@ description = ""
 authors = ["Noel Borneo <born.angelonoel@gmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "app/lambda" }
+    { include = "app/webhook" }
 ]
 
 [tool.poetry.dependencies]

@@ -1,0 +1,4 @@
+prod:
+  s3:
+    bucket: {source}stack-{env}-bucket
+    

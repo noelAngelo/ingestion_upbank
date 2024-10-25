@@ -27,7 +27,7 @@ export class ApiStack extends cdk.Stack {
     const upBankBucket = new s3.Bucket(this, `${id}-Bucket`, {
       objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      bucketName: `${id.toLowerCase()}-${props.account}-transactions-bucket`,
+      bucketName: `${id.toLowerCase()}-${props.account}-bucket`,
     });
 
     // Create a new secret

@@ -1,6 +1,7 @@
-from index import handler, DEFAULT_LOG_FORMAT
-from utils import compute_hmac_sha256
 import logging
+
+from app.webhook.index import DEFAULT_LOG_FORMAT
+from app.webhook.utils import compute_hmac_sha256
 
 # Configure logging with custom format
 logging.basicConfig(level=logging.INFO, format=DEFAULT_LOG_FORMAT)
@@ -31,6 +32,6 @@ class TestWebhookHandler:
 
         # THEN
         assert (
-            computed_signature
-            == "cb5b54a0678ce6a2d342bbdae74ff93a7595cf408d996319b846d4ede2c611d8"
+                computed_signature
+                == "cb5b54a0678ce6a2d342bbdae74ff93a7595cf408d996319b846d4ede2c611d8"
         )
