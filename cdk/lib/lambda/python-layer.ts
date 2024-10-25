@@ -6,6 +6,7 @@ import * as cdk from "aws-cdk-lib";
 export interface PythonLayerProps {
     readonly codePath: string;
     readonly runtime: Runtime;
+    readonly layerName?: string;
 }
 
 export class PythonLambdaLayer extends Construct {
@@ -16,8 +17,8 @@ export class PythonLambdaLayer extends Construct {
         super(scope, id);
 
         // Create a lambda layer for python dependencies
-        this.layer = new LayerVersion(this, `${id}Layer`, {
-            layerVersionName: `${id}Layer`,
+        this.layer = new LayerVersion(this, id, {
+            layerVersionName: props.layerName,
             code: Code.fromAsset(path.resolve(__dirname, props.codePath), {
                 assetHashType: cdk.AssetHashType.OUTPUT,
                 bundling: {

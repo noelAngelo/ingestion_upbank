@@ -17,7 +17,7 @@ def handle_webhook(event: dict, secret: str) -> dict:
     return dict(status_code=200, content="Hello World")
 
 
-def retrieve_secret_value(secret_id: str, port: int, secret_key: str) -> dict:
+def retrieve_secret_value(secret_id: str, port: int, secret_key: str) -> str:
 
     endpoint = f"secretsmanager/get?secretId={secret_id}"
 

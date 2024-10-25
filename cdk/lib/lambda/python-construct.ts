@@ -22,7 +22,7 @@ export class PythonLambda extends Construct {
     super(scope, id);
 
     const code = Code.fromAsset(resolve(__dirname, props.codePath));
-    this.lambdaFunction = new Function(this, `${id}Lambda`, {
+    this.lambdaFunction = new Function(this, id, {
       functionName: props.functionName,
       runtime: props.runtime,
       handler: props.handler,

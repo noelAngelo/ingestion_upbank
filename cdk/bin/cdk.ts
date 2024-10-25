@@ -12,11 +12,13 @@ cdk.Tags.of(app).add('Process', 'Ingestion');
 cdk.Tags.of(app).add('DataSource', 'UpBank');
 
 // Deploy API stack
-const apiStack = new ApiStack(app, 'ApiStack', {
+const apiStack = new ApiStack(app, 'UpBankStack', {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,
   },
+  account: 'prod',
+  description: 'This stack includes resources needed to deploy services and integrate with Up Bank',
   handler: 'index.handler',
   codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'webhook'),
   layerPath: path.join(__dirname, '..', '..', 'app', 'lambda', 'layer', 'python'),

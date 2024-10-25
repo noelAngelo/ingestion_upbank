@@ -1,0 +1,4 @@
+prod:
+  s3:
+    bucket: some-bucket
+    

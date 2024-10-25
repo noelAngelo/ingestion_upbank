@@ -5,8 +5,6 @@ import * as apigateway from "aws-cdk-lib/aws-apigateway";
 export interface ApiGatewayWebhookProps {
     readonly lambdafunction: IFunction;
     readonly apiName?: string;
-    readonly stageName?: string;
-    readonly version: string;
 }
 
 export class ApiGatewayWebhook extends Construct {
@@ -15,9 +13,10 @@ export class ApiGatewayWebhook extends Construct {
   constructor(scope: Construct, id: string, props: ApiGatewayWebhookProps) {
     super(scope, id);
 
-    this.api = new apigateway.LambdaRestApi(this, `${id}WebhookApi`, {
+    this.api = new apigateway.LambdaRestApi(this, id, {
         handler: props.lambdafunction,
         proxy: false,
+        restApiName: props.apiName,
     });
 
     const webhook = this.api.root.addResource("webhook");

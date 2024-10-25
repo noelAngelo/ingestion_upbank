@@ -1,4 +1,4 @@
-import {Role, ServicePrincipal, ManagedPolicy} from 'aws-cdk-lib/aws-iam';
+import { Role, ServicePrincipal, ManagedPolicy } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 
 export class LambdaExecutionRole extends Construct {
@@ -7,7 +7,7 @@ export class LambdaExecutionRole extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.role = new Role(this, `${id}Role`, {
+    this.role = new Role(this, id, {
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
