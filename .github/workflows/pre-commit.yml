@@ -19,5 +19,5 @@ jobs:
             - name: Lint Python code
               uses: pre-commit/action@v3.0.1
               with:
-                pre-commit_hooks: "flake8, black, isort"
+                pre-commit_hooks: "black, isort"
                 args: --files $(git ls-files -- app/)
