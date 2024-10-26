@@ -1,4 +1,2 @@
-prod:
-  s3:
-    bucket: {source}stack-{env}-bucket
-    
+path:
+  landing: ${make_path:landing}

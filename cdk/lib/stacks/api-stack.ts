@@ -66,7 +66,7 @@ export class ApiStack extends cdk.Stack {
       runtime: props.runtime,
       handler: props.handler,
       codePath: props.codePath,
-      environment: props.environment,
+      environment: {...props.environment, BUCKET_NAME: upBankBucket.bucketName},
       role: lambdaRole,
     });
 
