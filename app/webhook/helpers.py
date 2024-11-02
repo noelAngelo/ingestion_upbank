@@ -40,7 +40,8 @@ def retrieve_secret_value(secret_id: str, port: int, secret_key: str) -> str:
 def dump_webhook_event(event: dict, s3_client):
     logger.info(f"Received event")
     bucket = os.environ.get("BUCKET_NAME")
-    request_time = event.get(
+    request_context = event.get("requestContext", {})
+    request_time = request_context.get(
         "requestTimeEpoch", int(datetime.datetime.now().strftime("%s")) * 1000
     )
     key = f"stage=landing/source=webhook/events/{request_time}.json"
