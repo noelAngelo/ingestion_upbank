@@ -44,5 +44,5 @@ def dump_webhook_event(event: dict, s3_client):
         "requestTimeEpoch", int(datetime.datetime.now().strftime("%s")) * 1000
     )
     key = f"stage=landing/source=webhook/events/{request_time}.json"
-    s3_client.put_object(Bucket=bucket, Key=key, Body=json.dumps(event))
+    s3_client.put_object(Bucket=bucket, Key=key, Body=json.dumps(event), ContentType="application/json")
     return f"s3://{bucket}/{key}"
