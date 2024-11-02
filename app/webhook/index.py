@@ -1,11 +1,13 @@
 import json
 import os
+import boto3
+
 from pathlib import Path
 
 from aws_lambda_powertools import Tracer, Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
-
 from helpers import handle_webhook, retrieve_secret_value
+
 
 LAMBDA_DIR = Path(__file__).parent
 
@@ -19,6 +21,13 @@ logger = Logger(service="webhook", name="%(name)s")
 @logger.inject_lambda_context
 @tracer.capture_lambda_handler
 def handler(event: dict, context: LambdaContext) -> dict:
+
+    if event is None:
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"message": "Bad Request"}),
+        }
+
     webhook_secret = retrieve_secret_value(
         secret_id=os.environ.get("SECRET_UPBANK_WEBHOOK"),
         port=DEFAULT_PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,

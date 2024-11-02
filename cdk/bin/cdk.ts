@@ -20,8 +20,8 @@ const apiStack = new ApiStack(app, 'UpBankStack', {
   account: 'prod',
   description: 'This stack includes resources needed to deploy services and integrate with Up Bank',
   handler: 'index.handler',
-  codePath: path.join(__dirname, '..', '..', 'app', 'lambda', 'webhook'),
-  layerPath: path.join(__dirname, '..', '..', 'app', 'lambda', 'layer', 'python'),
+  codePath: path.join(__dirname, '..', '..', 'app', 'webhook'),
+  layerPath: path.join(__dirname, '..', '..', 'app', 'layer', 'python'),
   environment: {
     // UpBank API
     SECRET_UPBANK_API: 'prod/key/upbank/api',

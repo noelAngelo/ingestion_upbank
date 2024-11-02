@@ -34,8 +34,8 @@ class TestWebhookHandler:
 
         # THEN
         assert (
-                computed_signature
-                == "cb5b54a0678ce6a2d342bbdae74ff93a7595cf408d996319b846d4ede2c611d8"
+            computed_signature
+            == "cb5b54a0678ce6a2d342bbdae74ff93a7595cf408d996319b846d4ede2c611d8"
         )
 
 
